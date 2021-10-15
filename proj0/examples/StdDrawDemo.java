@@ -11,6 +11,7 @@
 
 public class StdDrawDemo {
 	public static String imageToDraw = "advice.png";
+	private static StdRandom StdRandom;
 
 	/* Draws three copies of the image in a rectangular pattern. */
 	public static void drawThree() {
