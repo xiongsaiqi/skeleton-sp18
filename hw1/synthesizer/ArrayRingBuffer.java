@@ -1,15 +1,14 @@
-package synthesizer;// TODO: Make sure to make this class a part of the synthesizer package
-
-import synthesizer.AbstractBoundedQueue;
-import org.junit.Test;
-import  static org.junit.Assert.*;
+package synthesizer;
 import java.util.Iterator;
 
-//TODO: Make sure to make this class and all of its methods public
-//TODO: Make sure to make this class extend AbstractBoundedQueue<t>
+/**
+ * 这个类就是上面抽线的AbstractBoundedQueue类的具体实现了。
+ * @author 熊赛棋
+ * @param <T>
+ */
 public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /* Index for the next dequeue or peek. */
-    private int first;            // index for the next dequeue or peek
+    private int first;
     /* Index for the next enqueue. */
     private int last;
     /* Array for storing the buffer data. */
@@ -19,12 +18,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * Create a new ArrayRingBuffer with the given capacity.
      */
     public ArrayRingBuffer(int capacity) {
-        // TODO: Create new array with capacity elements.
-        //       first, last, and fillCount should all be set to 0.
-        //       this.capacity should be set appropriately. Note that the local variable
-        //       here shadows the field we inherit from AbstractBoundedQueue, so
-        //       you'll need to use this.capacity to set the capacity.
-        rb = (T[])(new Object[capacity]);
+        rb = (T[]) (new Object[capacity]);
         first = 0;
         last = 0;
         this.capacity = capacity;
@@ -37,15 +31,14 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * covered Monday.
      */
     public void enqueue(T x) {
-        // TODO: Enqueue the item. Don't forget to increase fillCount and update last.
-        if(isFull()){
+        if (isFull()) {
             throw new RuntimeException("Ring Buffer Overflow");
         }
         rb[last++] = x;
-        if(last > capacity - 1){
+        if (last > capacity - 1) {
             last = 0;
         }
-        fillCount++;
+        fillCount = fillCount + 1;
     }
 
 
@@ -57,14 +50,14 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     @Override
     public T dequeue() {
-        // TODO: Dequeue the first item. Don't forget to decrease fillCount and update
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new RuntimeException("RingBuffer underflow");
         }
         T p = rb[first];
         rb[first++] = null;
-        if(first > capacity - 1)
+        if (first > capacity - 1) {
             first = 0;
+        }
         fillCount--;
         return p;
     }
@@ -73,31 +66,46 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * Return oldest item, but don't remove it.
      */
     public T peek() {
-        // TODO: Return the first item. None of your instance variables should change.
-        if(isEmpty()){
-        }
         return rb[first];
     }
 
+    /**
+     * 这个方法是实现iterator方法以便于实现foreach语法.
+     * @return
+     */
     @Override
     public Iterator<T> iterator() {
         return new ArrayQueueIterator();
     }
-    // TODO: When you get to part 5, implement the needed code to support iteration.
 
-
-    private class ArrayQueueIterator implements Iterator<T>{
+    /**
+     * 定义一个Iterator用于上述方法的反悔，
+     */
+    private class ArrayQueueIterator implements Iterator<T> {
+        /*内置的Num*/
         private int iterNum;
 
-        public ArrayQueueIterator(){
+        /**
+         * 使用private修饰的类不允许有public方法.
+         * 构造器.
+         */
+        ArrayQueueIterator() {
             iterNum = 0;
         }
 
+        /**
+         * 用于判断是否遍历了所有的成员.
+         * @return
+         */
         @Override
         public boolean hasNext() {
             return iterNum < fillCount;
         }
 
+        /**
+         * 用于返回下一个成员.
+         * @return
+         */
         @Override
         public T next() {
             int index = (iterNum + first) % capacity;
@@ -105,5 +113,4 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
             return (T) rb[index];
         }
     }
-
 }
