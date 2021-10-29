@@ -32,9 +32,7 @@ public class GuitarString {
         for (int i = 0; i < fillCount; i++) {
             buffer.dequeue();
         }
-
-        int capacity = buffer.capacity();
-        for (int i = 0; i < buffer.capacity(); i++) {
+         for (int i = 0; i < buffer.capacity(); i++) {
             double r = Math.random() - 0.5;
             buffer.enqueue(r);
         }
@@ -44,13 +42,13 @@ public class GuitarString {
      * the Karplus-Strong algorithm. 
      */
     public void tic() {
-        Double front = buffer.dequeue();
+        Double front = sample();
         Double newSample = (front + buffer.peek()) / 2 * DECAY;
-        buffer.enqueue(newSample);
+        buffer.enqueue(front);
     }
 
     /* Return the double at the front of the buffer. */
     public double sample() {
-        return buffer.peek();
+        return buffer.dequeue();
     }
 }
