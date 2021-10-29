@@ -1,9 +1,7 @@
 package synthesizer;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /** Tests the ArrayRingBuffer class.
  *  @author Josh Hug
@@ -11,7 +9,7 @@ import java.util.List;
 public class TestArrayRingBuffer {
 
     @Test
-    static public void someTest() {
+    public static void someTest() {
         ArrayRingBuffer<Integer> dd = new ArrayRingBuffer<>(10);
         for (int i = 0; i < 10; i++) {
             dd.enqueue(i);
@@ -24,7 +22,7 @@ public class TestArrayRingBuffer {
     }
 
     @Test
-    static public void GuitarStringTest(){
+    public static void guitarStringTest() {
         GuitarString gs = new GuitarString(1000);
         gs.pluck();
     }

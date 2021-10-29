@@ -28,13 +28,12 @@ public class GuitarString {
      * make suer your random number is different from each other.
      */
     public void pluck() {
-        int fillCount = buffer.fillCount();
-        for (int i = 0; i < fillCount; i++) {
+        while (!buffer.isEmpty()) {
             buffer.dequeue();
         }
-         for (int i = 0; i < buffer.capacity(); i++) {
-            double r = Math.random() - 0.5;
-            buffer.enqueue(r);
+        while (!buffer.isFull()) {
+            Double i = Math.random() - 0.5;
+            buffer.enqueue(i);
         }
     }
 
@@ -42,13 +41,13 @@ public class GuitarString {
      * the Karplus-Strong algorithm. 
      */
     public void tic() {
-        Double front = sample();
+        Double front = buffer.dequeue();
         Double newSample = (front + buffer.peek()) / 2 * DECAY;
-        buffer.enqueue(front);
+        buffer.enqueue(newSample);
     }
 
     /* Return the double at the front of the buffer. */
     public double sample() {
-        return buffer.dequeue();
+        return buffer.peek();
     }
 }

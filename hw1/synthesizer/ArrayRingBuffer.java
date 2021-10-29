@@ -18,7 +18,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * Create a new ArrayRingBuffer with the given capacity.
      */
     public ArrayRingBuffer(int capacity) {
-        rb = (T[]) (new Object[capacity]);
+        rb = (T[]) new Object[capacity];
         first = 0;
         last = 0;
         this.capacity = capacity;
@@ -66,7 +66,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * Return oldest item, but don't remove it.
      */
     public T peek() {
-        if (fillCount == 0){
+        if (fillCount == 0) {
             throw new RuntimeException("RingBuffer underflow");
         }
         return rb[first];
