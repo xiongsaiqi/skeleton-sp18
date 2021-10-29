@@ -15,7 +15,9 @@ public class GuitarString {
         double division = SR / frequency;
         int capacity = (int) Math.round(division);
         buffer = new ArrayRingBuffer<>(capacity);
-        this.pluck();
+        while (buffer.isEmpty()) {
+            buffer.enqueue(0.0);
+        }
     }
 
 
